@@ -16,7 +16,12 @@ struct MotorConfig {
   std::string type;           // 电机类型 (GM6020, GM3508, DM4340, A1, GO8010)
   int id;                     // 电机 ID
   int direction = 1;          // 方向 (仅宇树电机)
-  float offset = 0.0f;        // 零点偏移 (仅宇树电机)
+  double offset = 0.0;        // 零点偏移 (仅宇树电机)
+  
+  // GO8010 电机特定参数
+  double gear_ratio = 6.33;   // 齿轮减速比
+  double k_pos = 0.20;        // 关节刚度系数 (0-1.0)
+  double k_spd = 0.04;        // 关节阻尼系数 (0-1.0)
 };
 
 /**
@@ -34,6 +39,7 @@ struct CANInterfaceConfig {
 struct SerialInterfaceConfig {
   std::string device;         // 设备路径 (/dev/ttyUSB0)
   int baudrate;               // 波特率
+  std::string protocol = "native";  // "native" 或 "sdk"
   std::vector<MotorConfig> motors;  // 电机列表
 };
 

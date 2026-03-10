@@ -43,17 +43,31 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
-  // member: motor_id
-  {
-    out << "motor_id: ";
-    rosidl_generator_traits::value_to_yaml(msg.motor_id, out);
-    out << ", ";
-  }
-
   // member: mode
   {
     out << "mode: ";
     rosidl_generator_traits::value_to_yaml(msg.mode, out);
+    out << ", ";
+  }
+
+  // member: position_target
+  {
+    out << "position_target: ";
+    rosidl_generator_traits::value_to_yaml(msg.position_target, out);
+    out << ", ";
+  }
+
+  // member: velocity_target
+  {
+    out << "velocity_target: ";
+    rosidl_generator_traits::value_to_yaml(msg.velocity_target, out);
+    out << ", ";
+  }
+
+  // member: torque_ff
+  {
+    out << "torque_ff: ";
+    rosidl_generator_traits::value_to_yaml(msg.torque_ff, out);
     out << ", ";
   }
 
@@ -68,27 +82,6 @@ inline void to_flow_style_yaml(
   {
     out << "kd: ";
     rosidl_generator_traits::value_to_yaml(msg.kd, out);
-    out << ", ";
-  }
-
-  // member: pos_des
-  {
-    out << "pos_des: ";
-    rosidl_generator_traits::value_to_yaml(msg.pos_des, out);
-    out << ", ";
-  }
-
-  // member: vel_des
-  {
-    out << "vel_des: ";
-    rosidl_generator_traits::value_to_yaml(msg.vel_des, out);
-    out << ", ";
-  }
-
-  // member: torque_ff
-  {
-    out << "torque_ff: ";
-    rosidl_generator_traits::value_to_yaml(msg.torque_ff, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -116,16 +109,6 @@ inline void to_block_style_yaml(
     out << "\n";
   }
 
-  // member: motor_id
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "motor_id: ";
-    rosidl_generator_traits::value_to_yaml(msg.motor_id, out);
-    out << "\n";
-  }
-
   // member: mode
   {
     if (indentation > 0) {
@@ -133,6 +116,36 @@ inline void to_block_style_yaml(
     }
     out << "mode: ";
     rosidl_generator_traits::value_to_yaml(msg.mode, out);
+    out << "\n";
+  }
+
+  // member: position_target
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "position_target: ";
+    rosidl_generator_traits::value_to_yaml(msg.position_target, out);
+    out << "\n";
+  }
+
+  // member: velocity_target
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "velocity_target: ";
+    rosidl_generator_traits::value_to_yaml(msg.velocity_target, out);
+    out << "\n";
+  }
+
+  // member: torque_ff
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "torque_ff: ";
+    rosidl_generator_traits::value_to_yaml(msg.torque_ff, out);
     out << "\n";
   }
 
@@ -153,36 +166,6 @@ inline void to_block_style_yaml(
     }
     out << "kd: ";
     rosidl_generator_traits::value_to_yaml(msg.kd, out);
-    out << "\n";
-  }
-
-  // member: pos_des
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "pos_des: ";
-    rosidl_generator_traits::value_to_yaml(msg.pos_des, out);
-    out << "\n";
-  }
-
-  // member: vel_des
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "vel_des: ";
-    rosidl_generator_traits::value_to_yaml(msg.vel_des, out);
-    out << "\n";
-  }
-
-  // member: torque_ff
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "torque_ff: ";
-    rosidl_generator_traits::value_to_yaml(msg.torque_ff, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

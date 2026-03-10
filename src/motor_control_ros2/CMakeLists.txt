@@ -20,12 +20,13 @@ find_package(yaml-cpp REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 
 
-# ================== 宇树官方 SDK 路径设置 ==================
+# ================== 宇树官方 SDK 路径设置（可选，用于向后兼容） ==================
+# 原生协议实现不依赖SDK，但保留路径定义以备需要
 set(UNITREE_SDK_PATH "/home/toe/unitree_actuator_sdk")
 set(UNITREE_SDK_INCLUDE "${UNITREE_SDK_PATH}/include")
-# 分离出库目录，用于 RPATH 设置
 set(UNITREE_SDK_LIB_DIR "${UNITREE_SDK_PATH}/lib") 
-set(UNITREE_SDK_LIB "${UNITREE_SDK_LIB_DIR}/libUnitreeMotorSDK_Linux64.so")
+# 注释掉SDK库，使用原生协议
+# set(UNITREE_SDK_LIB "${UNITREE_SDK_LIB_DIR}/libUnitreeMotorSDK_Linux64.so")
 # ========================================================
 
 # 消息生成（不再使用服务）
@@ -49,19 +50,20 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 
 # 包含目录
 include_directories(include)
-include_directories(${UNITREE_SDK_INCLUDE})
+# include_directories(${UNITREE_SDK_INCLUDE})  # SDK可选
 
 # C++ 库 - 核心逻辑
 add_library(motor_control_lib
   # 硬件层
   src/hardware/can_interface.cpp
   src/hardware/serial_interface.cpp
-  src/hardware/unitree_sdk_wrapper.cpp
+  # src/hardware/unitree_sdk_wrapper.cpp  # SDK可选
   src/hardware/hardware_manager.cpp
   # 电机驱动层
   src/dji_motor.cpp
   src/damiao_motor.cpp
   src/unitree_motor.cpp
+  src/unitree_motor_native.cpp  # 原生协议宇树电机（主要使用）
   # 配置解析
   src/config_parser.cpp
   # 运动学
@@ -82,18 +84,19 @@ rosidl_get_typesupport_target(cpp_typesupport_target
 target_link_libraries(motor_control_lib 
   "${cpp_typesupport_target}" 
   yaml-cpp
-  ${UNITREE_SDK_LIB}
+  # ${UNITREE_SDK_LIB}  # SDK可选
+  serial
 )
 
-# 添加宇树 SDK 的包含路径
-target_include_directories(motor_control_lib 
-  PUBLIC 
-  ${UNITREE_SDK_INCLUDE}
-)
+# SDK包含路径（可选）
+# target_include_directories(motor_control_lib 
+#   PUBLIC 
+#   ${UNITREE_SDK_INCLUDE}
+# )
 
-# 设置 RPATH (修正：使用目录变量，而非文件变量)
+# 设置 RPATH
 set_target_properties(motor_control_lib PROPERTIES
-  BUILD_RPATH "${UNITREE_SDK_LIB_DIR}"
+  # BUILD_RPATH "${UNITREE_SDK_LIB_DIR}"
   INSTALL_RPATH "$ORIGIN"
 )
 
@@ -102,10 +105,9 @@ add_executable(motor_control_node
   src/motor_control_node.cpp
 )
 
-# 链接核心库和 SDK
+# 链接核心库（不依赖SDK）
 target_link_libraries(motor_control_node
   motor_control_lib
-  ${UNITREE_SDK_LIB}
 )
 
 ament_target_dependencies(motor_control_node
@@ -115,9 +117,8 @@ ament_target_dependencies(motor_control_node
   ament_index_cpp
 )
 
-# 设置 RPATH (修正：使用目录变量)
+# 设置 RPATH
 set_target_properties(motor_control_node PROPERTIES
-  BUILD_RPATH "${UNITREE_SDK_LIB_DIR}"
   INSTALL_RPATH "$ORIGIN"
 )
 
@@ -126,16 +127,14 @@ add_executable(motor_monitor_node
   src/motor_monitor_node.cpp
 )
 
-# 链接核心库和 SDK
+# 链接核心库（不依赖SDK）
 target_link_libraries(motor_monitor_node
   motor_control_lib
-  ${UNITREE_SDK_LIB}
   "${cpp_typesupport_target}"
 )
 
-# 设置 RPATH (修正：使用目录变量)
+# 设置 RPATH
 set_target_properties(motor_monitor_node PROPERTIES
-  BUILD_RPATH "${UNITREE_SDK_LIB_DIR}"
   INSTALL_RPATH "$ORIGIN"
 )
 
@@ -150,15 +149,13 @@ add_executable(chassis_control_node
   src/chassis_control_node.cpp
 )
 
-# 链接核心库和 SDK
+# 链接核心库（不依赖SDK）
 target_link_libraries(chassis_control_node
   motor_control_lib
-  ${UNITREE_SDK_LIB}
 )
 
-# 设置 RPATH (修正：使用目录变量)
+# 设置 RPATH
 set_target_properties(chassis_control_node PROPERTIES
-  BUILD_RPATH "${UNITREE_SDK_LIB_DIR}"
   INSTALL_RPATH "$ORIGIN"
 )
 
@@ -174,15 +171,13 @@ add_executable(omni_chassis_control_node
   src/omni_chassis_control_node.cpp
 )
 
-# 链接核心库和 SDK
+# 链接核心库（不依赖SDK）
 target_link_libraries(omni_chassis_control_node
   motor_control_lib
-  ${UNITREE_SDK_LIB}
 )
 
-# 设置 RPATH (修正：使用目录变量)
+# 设置 RPATH
 set_target_properties(omni_chassis_control_node PROPERTIES
-  BUILD_RPATH "${UNITREE_SDK_LIB_DIR}"
   INSTALL_RPATH "$ORIGIN"
 )
 
@@ -213,6 +208,23 @@ ament_target_dependencies(joystick_control_node
   geometry_msgs
 )
 
+# C++ 可执行文件 - 遥控器控制节点（舵轮）
+add_executable(remote_control_node
+  src/remote_control_node.cpp
+)
+
+# 链接消息类型支持
+target_link_libraries(remote_control_node
+  "${cpp_typesupport_target}"
+)
+
+ament_target_dependencies(remote_control_node
+  rclcpp
+  std_msgs
+  sensor_msgs
+  geometry_msgs
+)
+
 # 安装目标
 install(TARGETS
   motor_control_lib
@@ -221,16 +233,17 @@ install(TARGETS
   chassis_control_node
   omni_chassis_control_node
   joystick_control_node
+  remote_control_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
-# ================== 安装宇树 SDK 库文件 ==================
-# 将官方 .so 复制到 install/lib 下，这样运行时无需设置 LD_LIBRARY_PATH
-install(FILES ${UNITREE_SDK_LIB}
-  DESTINATION lib
-)
+# ================== SDK库文件安装（可选） ==================
+# 如果需要SDK支持，取消下面的注释
+# install(FILES ${UNITREE_SDK_LIB}
+#   DESTINATION lib
+# )
 # ========================================================
 
 # 安装头文件

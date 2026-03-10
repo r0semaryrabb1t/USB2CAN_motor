@@ -45,13 +45,12 @@ struct UnitreeGO8010Command_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->joint_name = "";
-      this->motor_id = 0;
       this->mode = 0;
+      this->position_target = 0.0;
+      this->velocity_target = 0.0;
+      this->torque_ff = 0.0f;
       this->kp = 0.0f;
       this->kd = 0.0f;
-      this->pos_des = 0.0f;
-      this->vel_des = 0.0f;
-      this->torque_ff = 0.0f;
     }
   }
 
@@ -63,13 +62,12 @@ struct UnitreeGO8010Command_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->joint_name = "";
-      this->motor_id = 0;
       this->mode = 0;
+      this->position_target = 0.0;
+      this->velocity_target = 0.0;
+      this->torque_ff = 0.0f;
       this->kp = 0.0f;
       this->kd = 0.0f;
-      this->pos_des = 0.0f;
-      this->vel_des = 0.0f;
-      this->torque_ff = 0.0f;
     }
   }
 
@@ -80,27 +78,24 @@ struct UnitreeGO8010Command_
   using _joint_name_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
   _joint_name_type joint_name;
-  using _motor_id_type =
-    uint8_t;
-  _motor_id_type motor_id;
   using _mode_type =
     uint8_t;
   _mode_type mode;
+  using _position_target_type =
+    double;
+  _position_target_type position_target;
+  using _velocity_target_type =
+    double;
+  _velocity_target_type velocity_target;
+  using _torque_ff_type =
+    float;
+  _torque_ff_type torque_ff;
   using _kp_type =
     float;
   _kp_type kp;
   using _kd_type =
     float;
   _kd_type kd;
-  using _pos_des_type =
-    float;
-  _pos_des_type pos_des;
-  using _vel_des_type =
-    float;
-  _vel_des_type vel_des;
-  using _torque_ff_type =
-    float;
-  _torque_ff_type torque_ff;
 
   // setters for named parameter idiom
   Type & set__header(
@@ -115,16 +110,28 @@ struct UnitreeGO8010Command_
     this->joint_name = _arg;
     return *this;
   }
-  Type & set__motor_id(
-    const uint8_t & _arg)
-  {
-    this->motor_id = _arg;
-    return *this;
-  }
   Type & set__mode(
     const uint8_t & _arg)
   {
     this->mode = _arg;
+    return *this;
+  }
+  Type & set__position_target(
+    const double & _arg)
+  {
+    this->position_target = _arg;
+    return *this;
+  }
+  Type & set__velocity_target(
+    const double & _arg)
+  {
+    this->velocity_target = _arg;
+    return *this;
+  }
+  Type & set__torque_ff(
+    const float & _arg)
+  {
+    this->torque_ff = _arg;
     return *this;
   }
   Type & set__kp(
@@ -139,26 +146,14 @@ struct UnitreeGO8010Command_
     this->kd = _arg;
     return *this;
   }
-  Type & set__pos_des(
-    const float & _arg)
-  {
-    this->pos_des = _arg;
-    return *this;
-  }
-  Type & set__vel_des(
-    const float & _arg)
-  {
-    this->vel_des = _arg;
-    return *this;
-  }
-  Type & set__torque_ff(
-    const float & _arg)
-  {
-    this->torque_ff = _arg;
-    return *this;
-  }
 
   // constant declarations
+  static constexpr uint8_t MODE_BRAKE =
+    0u;
+  static constexpr uint8_t MODE_FOC =
+    1u;
+  static constexpr uint8_t MODE_CALIBRATE =
+    2u;
 
   // pointer types
   using RawPtr =
@@ -206,25 +201,22 @@ struct UnitreeGO8010Command_
     if (this->joint_name != other.joint_name) {
       return false;
     }
-    if (this->motor_id != other.motor_id) {
+    if (this->mode != other.mode) {
       return false;
     }
-    if (this->mode != other.mode) {
+    if (this->position_target != other.position_target) {
+      return false;
+    }
+    if (this->velocity_target != other.velocity_target) {
+      return false;
+    }
+    if (this->torque_ff != other.torque_ff) {
       return false;
     }
     if (this->kp != other.kp) {
       return false;
     }
     if (this->kd != other.kd) {
-      return false;
-    }
-    if (this->pos_des != other.pos_des) {
-      return false;
-    }
-    if (this->vel_des != other.vel_des) {
-      return false;
-    }
-    if (this->torque_ff != other.torque_ff) {
       return false;
     }
     return true;
@@ -240,6 +232,21 @@ using UnitreeGO8010Command =
   motor_control_ros2::msg::UnitreeGO8010Command_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t UnitreeGO8010Command_<ContainerAllocator>::MODE_BRAKE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t UnitreeGO8010Command_<ContainerAllocator>::MODE_FOC;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t UnitreeGO8010Command_<ContainerAllocator>::MODE_CALIBRATE;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

@@ -137,6 +137,11 @@ ssize_t SerialInterface::send(const uint8_t* data, size_t len) {
   
   ssize_t n = write(fd_, data, len);
   
+  // 等待数据完全发送（关键！RS485半双工需要等待发送完成后才能接收）
+  if (n > 0) {
+    tcdrain(fd_);  // 阻塞直到所有数据发送完毕
+  }
+  
   std::lock_guard<std::mutex> lock(stats_mutex_);
   if (n > 0) {
     stats_.tx_bytes += n;

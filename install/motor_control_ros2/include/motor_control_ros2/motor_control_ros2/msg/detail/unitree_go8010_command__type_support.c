@@ -39,7 +39,7 @@ void motor_control_ros2__msg__UnitreeGO8010Command__rosidl_typesupport_introspec
   motor_control_ros2__msg__UnitreeGO8010Command__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember motor_control_ros2__msg__UnitreeGO8010Command__rosidl_typesupport_introspection_c__UnitreeGO8010Command_message_member_array[9] = {
+static rosidl_typesupport_introspection_c__MessageMember motor_control_ros2__msg__UnitreeGO8010Command__rosidl_typesupport_introspection_c__UnitreeGO8010Command_message_member_array[8] = {
   {
     "header",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
@@ -75,14 +75,14 @@ static rosidl_typesupport_introspection_c__MessageMember motor_control_ros2__msg
     NULL  // resize(index) function pointer
   },
   {
-    "motor_id",  // name
+    "mode",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_UINT8,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(motor_control_ros2__msg__UnitreeGO8010Command, motor_id),  // bytes offset in struct
+    offsetof(motor_control_ros2__msg__UnitreeGO8010Command, mode),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -92,14 +92,48 @@ static rosidl_typesupport_introspection_c__MessageMember motor_control_ros2__msg
     NULL  // resize(index) function pointer
   },
   {
-    "mode",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_UINT8,  // type
+    "position_target",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_DOUBLE,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(motor_control_ros2__msg__UnitreeGO8010Command, mode),  // bytes offset in struct
+    offsetof(motor_control_ros2__msg__UnitreeGO8010Command, position_target),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "velocity_target",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_DOUBLE,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(motor_control_ros2__msg__UnitreeGO8010Command, velocity_target),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "torque_ff",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(motor_control_ros2__msg__UnitreeGO8010Command, torque_ff),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -141,64 +175,13 @@ static rosidl_typesupport_introspection_c__MessageMember motor_control_ros2__msg
     NULL,  // fetch(index, &value) function pointer
     NULL,  // assign(index, value) function pointer
     NULL  // resize(index) function pointer
-  },
-  {
-    "pos_des",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
-    0,  // upper bound of string
-    NULL,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(motor_control_ros2__msg__UnitreeGO8010Command, pos_des),  // bytes offset in struct
-    NULL,  // default value
-    NULL,  // size() function pointer
-    NULL,  // get_const(index) function pointer
-    NULL,  // get(index) function pointer
-    NULL,  // fetch(index, &value) function pointer
-    NULL,  // assign(index, value) function pointer
-    NULL  // resize(index) function pointer
-  },
-  {
-    "vel_des",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
-    0,  // upper bound of string
-    NULL,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(motor_control_ros2__msg__UnitreeGO8010Command, vel_des),  // bytes offset in struct
-    NULL,  // default value
-    NULL,  // size() function pointer
-    NULL,  // get_const(index) function pointer
-    NULL,  // get(index) function pointer
-    NULL,  // fetch(index, &value) function pointer
-    NULL,  // assign(index, value) function pointer
-    NULL  // resize(index) function pointer
-  },
-  {
-    "torque_ff",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
-    0,  // upper bound of string
-    NULL,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(motor_control_ros2__msg__UnitreeGO8010Command, torque_ff),  // bytes offset in struct
-    NULL,  // default value
-    NULL,  // size() function pointer
-    NULL,  // get_const(index) function pointer
-    NULL,  // get(index) function pointer
-    NULL,  // fetch(index, &value) function pointer
-    NULL,  // assign(index, value) function pointer
-    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers motor_control_ros2__msg__UnitreeGO8010Command__rosidl_typesupport_introspection_c__UnitreeGO8010Command_message_members = {
   "motor_control_ros2__msg",  // message namespace
   "UnitreeGO8010Command",  // message name
-  9,  // number of fields
+  8,  // number of fields
   sizeof(motor_control_ros2__msg__UnitreeGO8010Command),
   motor_control_ros2__msg__UnitreeGO8010Command__rosidl_typesupport_introspection_c__UnitreeGO8010Command_message_member_array,  // message members
   motor_control_ros2__msg__UnitreeGO8010Command__rosidl_typesupport_introspection_c__UnitreeGO8010Command_init_function,  // function to initialize message memory (memory has to be allocated)

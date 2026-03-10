@@ -18,6 +18,34 @@ extern "C"
 
 // Constants defined in the message
 
+/// Constant 'MODE_BRAKE'.
+/**
+  * 控制模式
+  * 刹车模式
+ */
+enum
+{
+  motor_control_ros2__msg__UnitreeGO8010Command__MODE_BRAKE = 0
+};
+
+/// Constant 'MODE_FOC'.
+/**
+  * FOC闭环控制
+ */
+enum
+{
+  motor_control_ros2__msg__UnitreeGO8010Command__MODE_FOC = 1
+};
+
+/// Constant 'MODE_CALIBRATE'.
+/**
+  * 校准模式
+ */
+enum
+{
+  motor_control_ros2__msg__UnitreeGO8010Command__MODE_CALIBRATE = 2
+};
+
 // Include directives for member types
 // Member 'header'
 #include "std_msgs/msg/detail/header__struct.h"
@@ -29,19 +57,18 @@ typedef struct motor_control_ros2__msg__UnitreeGO8010Command
 {
   std_msgs__msg__Header header;
   rosidl_runtime_c__String joint_name;
-  uint8_t motor_id;
-  /// 0:空闲, 5:开环, 10:闭环FOC
   uint8_t mode;
-  /// 关节刚度系数
-  float kp;
-  /// 关节速度系数
-  float kd;
-  /// 期望位置（弧度）
-  float pos_des;
-  /// 期望速度（弧度/秒）
-  float vel_des;
-  /// 期望力矩（Nm）
+  /// 目标值（FOC模式使用）
+  /// 期望位置（度），FOC模式时使用
+  double position_target;
+  /// 期望速度（弧度/秒），FOC模式时使用
+  double velocity_target;
+  /// 期望力矩（Nm），FOC模式时使用
   float torque_ff;
+  /// 关节刚度系数，FOC模式时使用
+  float kp;
+  /// 关节阻尼系数，FOC模式时使用
+  float kd;
 } motor_control_ros2__msg__UnitreeGO8010Command;
 
 // Struct for a sequence of motor_control_ros2__msg__UnitreeGO8010Command.

@@ -21,33 +21,49 @@ void SteerWheelKinematics::inverseKinematics(
     WheelCommand& fl, WheelCommand& fr,
     WheelCommand& rl, WheelCommand& rr)
 {
-    // 计算每个轮子的速度向量（底盘坐标系）
-    // 轮子位置：
-    // FL: (+lx, +ly)  FR: (+lx, -ly)
-    // RL: (-lx, +ly)  RR: (-lx, -ly)
+    // 底盘坐标系定义（ROS标准）：
+    // X轴：前方为正
+    // Y轴：左方为正
+    // Z轴：上方为正（右手坐标系）
+    // wz正：逆时针旋转（从上往下看）
     
-    // 左前轮 (FL)
+    // 轮子位置（从底盘中心看）：
+    // FL: (+lx_, +ly_)  前左
+    // FR: (+lx_, -ly_)  前右
+    // RL: (-lx_, +ly_)  后左
+    // RR: (-lx_, -ly_)  后右
+    
+    // 每个轮子的速度 = 底盘平移速度 + 旋转引起的速度
+    // 对于旋转，速度向量垂直于从中心到轮子的向量
+    // v_rot = omega × r，其中 r 是轮子位置向量
+    // 对于绕Z轴旋转: vx_rot = -wz * y, vy_rot = wz * x
+    
+    // 左前轮 (FL) 位置: (+lx_, +ly_)
+    // 旋转速度: vx_rot = -wz * ly_, vy_rot = wz * lx_
     double vx_fl = vx - wz * ly_;
     double vy_fl = vy + wz * lx_;
     fl.velocity = std::sqrt(vx_fl * vx_fl + vy_fl * vy_fl);
     fl.angle = std::atan2(vy_fl, vx_fl) * 180.0 / M_PI;
     fl.angle = normalizeAngle(fl.angle);
     
-    // 右前轮 (FR)
+    // 右前轮 (FR) 位置: (+lx_, -ly_)
+    // 旋转速度: vx_rot = -wz * (-ly_) = +wz * ly_, vy_rot = wz * lx_
     double vx_fr = vx + wz * ly_;
     double vy_fr = vy + wz * lx_;
     fr.velocity = std::sqrt(vx_fr * vx_fr + vy_fr * vy_fr);
     fr.angle = std::atan2(vy_fr, vx_fr) * 180.0 / M_PI;
     fr.angle = normalizeAngle(fr.angle);
     
-    // 左后轮 (RL)
+    // 左后轮 (RL) 位置: (-lx_, +ly_)
+    // 旋转速度: vx_rot = -wz * ly_, vy_rot = wz * (-lx_) = -wz * lx_
     double vx_rl = vx - wz * ly_;
     double vy_rl = vy - wz * lx_;
     rl.velocity = std::sqrt(vx_rl * vx_rl + vy_rl * vy_rl);
     rl.angle = std::atan2(vy_rl, vx_rl) * 180.0 / M_PI;
     rl.angle = normalizeAngle(rl.angle);
     
-    // 右后轮 (RR)
+    // 右后轮 (RR) 位置: (-lx_, -ly_)
+    // 旋转速度: vx_rot = -wz * (-ly_) = +wz * ly_, vy_rot = wz * (-lx_) = -wz * lx_
     double vx_rr = vx + wz * ly_;
     double vy_rr = vy - wz * lx_;
     rr.velocity = std::sqrt(vx_rr * vx_rr + vy_rr * vy_rr);

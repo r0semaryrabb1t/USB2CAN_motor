@@ -102,6 +102,7 @@ private:
     // 电机配置（零位偏移和方向）
     struct MotorConfig {
         double fl_steer_offset, fr_steer_offset, rl_steer_offset, rr_steer_offset;  // 转向零位偏移（度）
+        int fl_steer_direction, fr_steer_direction, rl_steer_direction, rr_steer_direction;  // 舵轮方向 (1 或 -1)
         int fl_drive_direction, fr_drive_direction, rl_drive_direction, rr_drive_direction;  // 驱动方向 (1 或 -1)
     };
     
@@ -170,30 +171,38 @@ private:
             if (motor_states_.count(motor_names_.fl_steer)) {
                 // 将编码器角度转换为机械角度
                 double current_mechanical_angle = motor_states_[motor_names_.fl_steer].angle - motor_config_.fl_steer_offset;
+                // 应用舵轮方向
+                double target_angle = fl_cmd.angle * motor_config_.fl_steer_direction;
                 // 优化舵角（输入输出都是机械角度）
                 fl_cmd.angle = SteerWheelKinematics::optimizeSteerAngle(
-                    current_mechanical_angle, fl_cmd.angle, fl_cmd.velocity
+                    current_mechanical_angle, target_angle, fl_cmd.velocity
                 );
             }
             
             if (motor_states_.count(motor_names_.fr_steer)) {
                 double current_mechanical_angle = motor_states_[motor_names_.fr_steer].angle - motor_config_.fr_steer_offset;
+                // 应用舵轮方向
+                double target_angle = fr_cmd.angle * motor_config_.fr_steer_direction;
                 fr_cmd.angle = SteerWheelKinematics::optimizeSteerAngle(
-                    current_mechanical_angle, fr_cmd.angle, fr_cmd.velocity
+                    current_mechanical_angle, target_angle, fr_cmd.velocity
                 );
             }
             
             if (motor_states_.count(motor_names_.rl_steer)) {
                 double current_mechanical_angle = motor_states_[motor_names_.rl_steer].angle - motor_config_.rl_steer_offset;
+                // 应用舵轮方向
+                double target_angle = rl_cmd.angle * motor_config_.rl_steer_direction;
                 rl_cmd.angle = SteerWheelKinematics::optimizeSteerAngle(
-                    current_mechanical_angle, rl_cmd.angle, rl_cmd.velocity
+                    current_mechanical_angle, target_angle, rl_cmd.velocity
                 );
             }
             
             if (motor_states_.count(motor_names_.rr_steer)) {
                 double current_mechanical_angle = motor_states_[motor_names_.rr_steer].angle - motor_config_.rr_steer_offset;
+                // 应用舵轮方向
+                double target_angle = rr_cmd.angle * motor_config_.rr_steer_direction;
                 rr_cmd.angle = SteerWheelKinematics::optimizeSteerAngle(
-                    current_mechanical_angle, rr_cmd.angle, rr_cmd.velocity
+                    current_mechanical_angle, target_angle, rr_cmd.velocity
                 );
             }
         }
@@ -375,6 +384,9 @@ private:
         if (!params["fl_steer_offset"]) throw std::runtime_error("配置文件缺少必需参数: fl_steer_offset");
         motor_config_.fl_steer_offset = params["fl_steer_offset"].as<double>();
         
+        if (!params["fl_steer_direction"]) throw std::runtime_error("配置文件缺少必需参数: fl_steer_direction");
+        motor_config_.fl_steer_direction = params["fl_steer_direction"].as<int>();
+        
         if (!params["fl_drive_direction"]) throw std::runtime_error("配置文件缺少必需参数: fl_drive_direction");
         motor_config_.fl_drive_direction = params["fl_drive_direction"].as<int>();
         
@@ -387,6 +399,9 @@ private:
         
         if (!params["fr_steer_offset"]) throw std::runtime_error("配置文件缺少必需参数: fr_steer_offset");
         motor_config_.fr_steer_offset = params["fr_steer_offset"].as<double>();
+        
+        if (!params["fr_steer_direction"]) throw std::runtime_error("配置文件缺少必需参数: fr_steer_direction");
+        motor_config_.fr_steer_direction = params["fr_steer_direction"].as<int>();
         
         if (!params["fr_drive_direction"]) throw std::runtime_error("配置文件缺少必需参数: fr_drive_direction");
         motor_config_.fr_drive_direction = params["fr_drive_direction"].as<int>();
@@ -401,6 +416,9 @@ private:
         if (!params["rl_steer_offset"]) throw std::runtime_error("配置文件缺少必需参数: rl_steer_offset");
         motor_config_.rl_steer_offset = params["rl_steer_offset"].as<double>();
         
+        if (!params["rl_steer_direction"]) throw std::runtime_error("配置文件缺少必需参数: rl_steer_direction");
+        motor_config_.rl_steer_direction = params["rl_steer_direction"].as<int>();
+        
         if (!params["rl_drive_direction"]) throw std::runtime_error("配置文件缺少必需参数: rl_drive_direction");
         motor_config_.rl_drive_direction = params["rl_drive_direction"].as<int>();
         
@@ -413,6 +431,9 @@ private:
         
         if (!params["rr_steer_offset"]) throw std::runtime_error("配置文件缺少必需参数: rr_steer_offset");
         motor_config_.rr_steer_offset = params["rr_steer_offset"].as<double>();
+        
+        if (!params["rr_steer_direction"]) throw std::runtime_error("配置文件缺少必需参数: rr_steer_direction");
+        motor_config_.rr_steer_direction = params["rr_steer_direction"].as<int>();
         
         if (!params["rr_drive_direction"]) throw std::runtime_error("配置文件缺少必需参数: rr_drive_direction");
         motor_config_.rr_drive_direction = params["rr_drive_direction"].as<int>();
