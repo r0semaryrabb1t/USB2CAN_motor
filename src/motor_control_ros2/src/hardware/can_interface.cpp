@@ -381,7 +381,7 @@ void CANInterface::receiveLoop() {
           std::lock_guard<std::mutex> lock(stats_mutex_);
           stats_.queue_drops++;
         }
-      }
+      }//循环解析完毕后调用回调
       
       // 调用回调（传递接口名称）
       if (rx_callback_) {

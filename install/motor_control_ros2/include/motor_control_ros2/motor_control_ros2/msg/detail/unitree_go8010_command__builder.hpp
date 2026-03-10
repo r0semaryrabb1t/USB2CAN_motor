@@ -21,64 +21,16 @@ namespace msg
 namespace builder
 {
 
-class Init_UnitreeGO8010Command_torque_ff
-{
-public:
-  explicit Init_UnitreeGO8010Command_torque_ff(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
-  : msg_(msg)
-  {}
-  ::motor_control_ros2::msg::UnitreeGO8010Command torque_ff(::motor_control_ros2::msg::UnitreeGO8010Command::_torque_ff_type arg)
-  {
-    msg_.torque_ff = std::move(arg);
-    return std::move(msg_);
-  }
-
-private:
-  ::motor_control_ros2::msg::UnitreeGO8010Command msg_;
-};
-
-class Init_UnitreeGO8010Command_vel_des
-{
-public:
-  explicit Init_UnitreeGO8010Command_vel_des(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
-  : msg_(msg)
-  {}
-  Init_UnitreeGO8010Command_torque_ff vel_des(::motor_control_ros2::msg::UnitreeGO8010Command::_vel_des_type arg)
-  {
-    msg_.vel_des = std::move(arg);
-    return Init_UnitreeGO8010Command_torque_ff(msg_);
-  }
-
-private:
-  ::motor_control_ros2::msg::UnitreeGO8010Command msg_;
-};
-
-class Init_UnitreeGO8010Command_pos_des
-{
-public:
-  explicit Init_UnitreeGO8010Command_pos_des(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
-  : msg_(msg)
-  {}
-  Init_UnitreeGO8010Command_vel_des pos_des(::motor_control_ros2::msg::UnitreeGO8010Command::_pos_des_type arg)
-  {
-    msg_.pos_des = std::move(arg);
-    return Init_UnitreeGO8010Command_vel_des(msg_);
-  }
-
-private:
-  ::motor_control_ros2::msg::UnitreeGO8010Command msg_;
-};
-
 class Init_UnitreeGO8010Command_kd
 {
 public:
   explicit Init_UnitreeGO8010Command_kd(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
   : msg_(msg)
   {}
-  Init_UnitreeGO8010Command_pos_des kd(::motor_control_ros2::msg::UnitreeGO8010Command::_kd_type arg)
+  ::motor_control_ros2::msg::UnitreeGO8010Command kd(::motor_control_ros2::msg::UnitreeGO8010Command::_kd_type arg)
   {
     msg_.kd = std::move(arg);
-    return Init_UnitreeGO8010Command_pos_des(msg_);
+    return std::move(msg_);
   }
 
 private:
@@ -101,15 +53,15 @@ private:
   ::motor_control_ros2::msg::UnitreeGO8010Command msg_;
 };
 
-class Init_UnitreeGO8010Command_mode
+class Init_UnitreeGO8010Command_torque_ff
 {
 public:
-  explicit Init_UnitreeGO8010Command_mode(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
+  explicit Init_UnitreeGO8010Command_torque_ff(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
   : msg_(msg)
   {}
-  Init_UnitreeGO8010Command_kp mode(::motor_control_ros2::msg::UnitreeGO8010Command::_mode_type arg)
+  Init_UnitreeGO8010Command_kp torque_ff(::motor_control_ros2::msg::UnitreeGO8010Command::_torque_ff_type arg)
   {
-    msg_.mode = std::move(arg);
+    msg_.torque_ff = std::move(arg);
     return Init_UnitreeGO8010Command_kp(msg_);
   }
 
@@ -117,16 +69,48 @@ private:
   ::motor_control_ros2::msg::UnitreeGO8010Command msg_;
 };
 
-class Init_UnitreeGO8010Command_motor_id
+class Init_UnitreeGO8010Command_velocity_target
 {
 public:
-  explicit Init_UnitreeGO8010Command_motor_id(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
+  explicit Init_UnitreeGO8010Command_velocity_target(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
   : msg_(msg)
   {}
-  Init_UnitreeGO8010Command_mode motor_id(::motor_control_ros2::msg::UnitreeGO8010Command::_motor_id_type arg)
+  Init_UnitreeGO8010Command_torque_ff velocity_target(::motor_control_ros2::msg::UnitreeGO8010Command::_velocity_target_type arg)
   {
-    msg_.motor_id = std::move(arg);
-    return Init_UnitreeGO8010Command_mode(msg_);
+    msg_.velocity_target = std::move(arg);
+    return Init_UnitreeGO8010Command_torque_ff(msg_);
+  }
+
+private:
+  ::motor_control_ros2::msg::UnitreeGO8010Command msg_;
+};
+
+class Init_UnitreeGO8010Command_position_target
+{
+public:
+  explicit Init_UnitreeGO8010Command_position_target(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
+  : msg_(msg)
+  {}
+  Init_UnitreeGO8010Command_velocity_target position_target(::motor_control_ros2::msg::UnitreeGO8010Command::_position_target_type arg)
+  {
+    msg_.position_target = std::move(arg);
+    return Init_UnitreeGO8010Command_velocity_target(msg_);
+  }
+
+private:
+  ::motor_control_ros2::msg::UnitreeGO8010Command msg_;
+};
+
+class Init_UnitreeGO8010Command_mode
+{
+public:
+  explicit Init_UnitreeGO8010Command_mode(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
+  : msg_(msg)
+  {}
+  Init_UnitreeGO8010Command_position_target mode(::motor_control_ros2::msg::UnitreeGO8010Command::_mode_type arg)
+  {
+    msg_.mode = std::move(arg);
+    return Init_UnitreeGO8010Command_position_target(msg_);
   }
 
 private:
@@ -139,10 +123,10 @@ public:
   explicit Init_UnitreeGO8010Command_joint_name(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
   : msg_(msg)
   {}
-  Init_UnitreeGO8010Command_motor_id joint_name(::motor_control_ros2::msg::UnitreeGO8010Command::_joint_name_type arg)
+  Init_UnitreeGO8010Command_mode joint_name(::motor_control_ros2::msg::UnitreeGO8010Command::_joint_name_type arg)
   {
     msg_.joint_name = std::move(arg);
-    return Init_UnitreeGO8010Command_motor_id(msg_);
+    return Init_UnitreeGO8010Command_mode(msg_);
   }
 
 private:

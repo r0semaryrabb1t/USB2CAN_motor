@@ -342,7 +342,7 @@ public:
   std::shared_ptr<CANInterface> getInterface(const std::string& name);
   
   /**
-   * @brief SendRecv 模式发送
+   * @brief SendRecv 同步模式：发送 CAN 帧并等待反馈
    * @param interface_name 接口名称
    * @param can_id CAN ID
    * @param data 数据指针
@@ -356,7 +356,7 @@ public:
                 CANFrame& response, int timeout_us = 900);
   
   /**
-   * @brief 传统发送模式
+   * @brief 传统发送模式：仅发送 CAN 帧，不等待反馈
    * @param interface_name 接口名称
    * @param can_id CAN ID
    * @param data 数据指针

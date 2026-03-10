@@ -37,7 +37,7 @@ void UnitreeGO8010Command_fini_function(void * message_memory)
   typed_message->~UnitreeGO8010Command();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember UnitreeGO8010Command_message_member_array[9] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember UnitreeGO8010Command_message_member_array[8] = {
   {
     "header",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_MESSAGE,  // type
@@ -73,14 +73,14 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember UnitreeGO8010
     nullptr  // resize(index) function pointer
   },
   {
-    "motor_id",  // name
+    "mode",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(motor_control_ros2::msg::UnitreeGO8010Command, motor_id),  // bytes offset in struct
+    offsetof(motor_control_ros2::msg::UnitreeGO8010Command, mode),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -90,14 +90,48 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember UnitreeGO8010
     nullptr  // resize(index) function pointer
   },
   {
-    "mode",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
+    "position_target",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_DOUBLE,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(motor_control_ros2::msg::UnitreeGO8010Command, mode),  // bytes offset in struct
+    offsetof(motor_control_ros2::msg::UnitreeGO8010Command, position_target),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "velocity_target",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_DOUBLE,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(motor_control_ros2::msg::UnitreeGO8010Command, velocity_target),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "torque_ff",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(motor_control_ros2::msg::UnitreeGO8010Command, torque_ff),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -139,64 +173,13 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember UnitreeGO8010
     nullptr,  // fetch(index, &value) function pointer
     nullptr,  // assign(index, value) function pointer
     nullptr  // resize(index) function pointer
-  },
-  {
-    "pos_des",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
-    0,  // upper bound of string
-    nullptr,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(motor_control_ros2::msg::UnitreeGO8010Command, pos_des),  // bytes offset in struct
-    nullptr,  // default value
-    nullptr,  // size() function pointer
-    nullptr,  // get_const(index) function pointer
-    nullptr,  // get(index) function pointer
-    nullptr,  // fetch(index, &value) function pointer
-    nullptr,  // assign(index, value) function pointer
-    nullptr  // resize(index) function pointer
-  },
-  {
-    "vel_des",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
-    0,  // upper bound of string
-    nullptr,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(motor_control_ros2::msg::UnitreeGO8010Command, vel_des),  // bytes offset in struct
-    nullptr,  // default value
-    nullptr,  // size() function pointer
-    nullptr,  // get_const(index) function pointer
-    nullptr,  // get(index) function pointer
-    nullptr,  // fetch(index, &value) function pointer
-    nullptr,  // assign(index, value) function pointer
-    nullptr  // resize(index) function pointer
-  },
-  {
-    "torque_ff",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
-    0,  // upper bound of string
-    nullptr,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(motor_control_ros2::msg::UnitreeGO8010Command, torque_ff),  // bytes offset in struct
-    nullptr,  // default value
-    nullptr,  // size() function pointer
-    nullptr,  // get_const(index) function pointer
-    nullptr,  // get(index) function pointer
-    nullptr,  // fetch(index, &value) function pointer
-    nullptr,  // assign(index, value) function pointer
-    nullptr  // resize(index) function pointer
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers UnitreeGO8010Command_message_members = {
   "motor_control_ros2::msg",  // message namespace
   "UnitreeGO8010Command",  // message name
-  9,  // number of fields
+  8,  // number of fields
   sizeof(motor_control_ros2::msg::UnitreeGO8010Command),
   UnitreeGO8010Command_message_member_array,  // message members
   UnitreeGO8010Command_init_function,  // function to initialize message memory (memory has to be allocated)

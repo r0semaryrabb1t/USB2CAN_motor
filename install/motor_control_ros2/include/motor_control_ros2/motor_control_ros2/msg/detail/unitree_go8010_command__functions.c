@@ -33,13 +33,12 @@ motor_control_ros2__msg__UnitreeGO8010Command__init(motor_control_ros2__msg__Uni
     motor_control_ros2__msg__UnitreeGO8010Command__fini(msg);
     return false;
   }
-  // motor_id
   // mode
+  // position_target
+  // velocity_target
+  // torque_ff
   // kp
   // kd
-  // pos_des
-  // vel_des
-  // torque_ff
   return true;
 }
 
@@ -53,13 +52,12 @@ motor_control_ros2__msg__UnitreeGO8010Command__fini(motor_control_ros2__msg__Uni
   std_msgs__msg__Header__fini(&msg->header);
   // joint_name
   rosidl_runtime_c__String__fini(&msg->joint_name);
-  // motor_id
   // mode
+  // position_target
+  // velocity_target
+  // torque_ff
   // kp
   // kd
-  // pos_des
-  // vel_des
-  // torque_ff
 }
 
 bool
@@ -80,12 +78,20 @@ motor_control_ros2__msg__UnitreeGO8010Command__are_equal(const motor_control_ros
   {
     return false;
   }
-  // motor_id
-  if (lhs->motor_id != rhs->motor_id) {
-    return false;
-  }
   // mode
   if (lhs->mode != rhs->mode) {
+    return false;
+  }
+  // position_target
+  if (lhs->position_target != rhs->position_target) {
+    return false;
+  }
+  // velocity_target
+  if (lhs->velocity_target != rhs->velocity_target) {
+    return false;
+  }
+  // torque_ff
+  if (lhs->torque_ff != rhs->torque_ff) {
     return false;
   }
   // kp
@@ -94,18 +100,6 @@ motor_control_ros2__msg__UnitreeGO8010Command__are_equal(const motor_control_ros
   }
   // kd
   if (lhs->kd != rhs->kd) {
-    return false;
-  }
-  // pos_des
-  if (lhs->pos_des != rhs->pos_des) {
-    return false;
-  }
-  // vel_des
-  if (lhs->vel_des != rhs->vel_des) {
-    return false;
-  }
-  // torque_ff
-  if (lhs->torque_ff != rhs->torque_ff) {
     return false;
   }
   return true;
@@ -131,20 +125,18 @@ motor_control_ros2__msg__UnitreeGO8010Command__copy(
   {
     return false;
   }
-  // motor_id
-  output->motor_id = input->motor_id;
   // mode
   output->mode = input->mode;
+  // position_target
+  output->position_target = input->position_target;
+  // velocity_target
+  output->velocity_target = input->velocity_target;
+  // torque_ff
+  output->torque_ff = input->torque_ff;
   // kp
   output->kp = input->kp;
   // kd
   output->kd = input->kd;
-  // pos_des
-  output->pos_des = input->pos_des;
-  // vel_des
-  output->vel_des = input->vel_des;
-  // torque_ff
-  output->torque_ff = input->torque_ff;
   return true;
 }
 
