@@ -18,7 +18,7 @@ struct MotorConfig {
 
   // 可选通用参数
   int direction = 1;          // 方向 (1 或 -1)
-  float offset = 0.0f;        // 零位偏移
+  double offset = 0.0;        // 零位偏移
 
   // GO8010 电机特定参数
   double gear_ratio = 6.33;   // 齿轮减速比
