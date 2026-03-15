@@ -1,5 +1,7 @@
 std_msgs/Header header
-string joint_name
+
+uint8 id                       # 电机 ID (0-15)
+string device                  # 串口设备路径（如 /dev/ttyUSB0），为空时广播到所有同 ID 电机
 
 # 控制模式
 uint8 MODE_BRAKE = 0       # 刹车模式

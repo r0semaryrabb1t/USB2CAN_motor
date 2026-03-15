@@ -117,16 +117,32 @@ private:
   ::motor_control_ros2::msg::UnitreeGO8010Command msg_;
 };
 
-class Init_UnitreeGO8010Command_joint_name
+class Init_UnitreeGO8010Command_device
 {
 public:
-  explicit Init_UnitreeGO8010Command_joint_name(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
+  explicit Init_UnitreeGO8010Command_device(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
   : msg_(msg)
   {}
-  Init_UnitreeGO8010Command_mode joint_name(::motor_control_ros2::msg::UnitreeGO8010Command::_joint_name_type arg)
+  Init_UnitreeGO8010Command_mode device(::motor_control_ros2::msg::UnitreeGO8010Command::_device_type arg)
   {
-    msg_.joint_name = std::move(arg);
+    msg_.device = std::move(arg);
     return Init_UnitreeGO8010Command_mode(msg_);
+  }
+
+private:
+  ::motor_control_ros2::msg::UnitreeGO8010Command msg_;
+};
+
+class Init_UnitreeGO8010Command_id
+{
+public:
+  explicit Init_UnitreeGO8010Command_id(::motor_control_ros2::msg::UnitreeGO8010Command & msg)
+  : msg_(msg)
+  {}
+  Init_UnitreeGO8010Command_device id(::motor_control_ros2::msg::UnitreeGO8010Command::_id_type arg)
+  {
+    msg_.id = std::move(arg);
+    return Init_UnitreeGO8010Command_device(msg_);
   }
 
 private:
@@ -139,10 +155,10 @@ public:
   Init_UnitreeGO8010Command_header()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_UnitreeGO8010Command_joint_name header(::motor_control_ros2::msg::UnitreeGO8010Command::_header_type arg)
+  Init_UnitreeGO8010Command_id header(::motor_control_ros2::msg::UnitreeGO8010Command::_header_type arg)
   {
     msg_.header = std::move(arg);
-    return Init_UnitreeGO8010Command_joint_name(msg_);
+    return Init_UnitreeGO8010Command_id(msg_);
   }
 
 private:

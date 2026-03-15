@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <cmath>
+#include <atomic>
 
 namespace motor_control {
 
@@ -130,12 +131,26 @@ public:
   void setInterfaceName(const std::string& name) {
     interface_name_ = name;
   }
-  
+
   /**
    * @brief 获取接口名称
    */
   std::string getInterfaceName() const {
     return interface_name_;
+  }
+
+  /**
+   * @brief 设置设备路径（如 /dev/ttyUSB0）
+   */
+  void setDevicePath(const std::string& path) {
+    device_path_ = path;
+  }
+
+  /**
+   * @brief 获取设备路径
+   */
+  std::string getDevicePath() const {
+    return device_path_;
   }
   
   /**
@@ -239,6 +254,7 @@ protected:
   
   // 接口信息
   std::string interface_name_;  // 所属的 CAN/串口接口名称
+  std::string device_path_;     // 实际设备路径（如 /dev/ttyUSB0）
 };
 
 } // namespace motor_control

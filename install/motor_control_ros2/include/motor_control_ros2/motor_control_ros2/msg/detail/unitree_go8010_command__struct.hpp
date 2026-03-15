@@ -44,7 +44,8 @@ struct UnitreeGO8010Command_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->joint_name = "";
+      this->id = 0;
+      this->device = "";
       this->mode = 0;
       this->position_target = 0.0;
       this->velocity_target = 0.0;
@@ -56,12 +57,13 @@ struct UnitreeGO8010Command_
 
   explicit UnitreeGO8010Command_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : header(_alloc, _init),
-    joint_name(_alloc)
+    device(_alloc)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->joint_name = "";
+      this->id = 0;
+      this->device = "";
       this->mode = 0;
       this->position_target = 0.0;
       this->velocity_target = 0.0;
@@ -75,9 +77,12 @@ struct UnitreeGO8010Command_
   using _header_type =
     std_msgs::msg::Header_<ContainerAllocator>;
   _header_type header;
-  using _joint_name_type =
+  using _id_type =
+    uint8_t;
+  _id_type id;
+  using _device_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
-  _joint_name_type joint_name;
+  _device_type device;
   using _mode_type =
     uint8_t;
   _mode_type mode;
@@ -104,10 +109,16 @@ struct UnitreeGO8010Command_
     this->header = _arg;
     return *this;
   }
-  Type & set__joint_name(
+  Type & set__id(
+    const uint8_t & _arg)
+  {
+    this->id = _arg;
+    return *this;
+  }
+  Type & set__device(
     const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
   {
-    this->joint_name = _arg;
+    this->device = _arg;
     return *this;
   }
   Type & set__mode(
@@ -198,7 +209,10 @@ struct UnitreeGO8010Command_
     if (this->header != other.header) {
       return false;
     }
-    if (this->joint_name != other.joint_name) {
+    if (this->id != other.id) {
+      return false;
+    }
+    if (this->device != other.device) {
       return false;
     }
     if (this->mode != other.mode) {

@@ -20,7 +20,13 @@ module motor_control_ros2 {
     struct UnitreeGO8010Command {
       std_msgs::msg::Header header;
 
-      string joint_name;
+      @verbatim (language="comment", text=
+        "电机 ID (0-15)")
+      uint8 id;
+
+      @verbatim (language="comment", text=
+        "串口设备路径（如 /dev/ttyUSB0），为空时广播到所有同 ID 电机")
+      string device;
 
       uint8 mode;
 

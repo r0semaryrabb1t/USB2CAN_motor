@@ -49,14 +49,17 @@ enum
 // Include directives for member types
 // Member 'header'
 #include "std_msgs/msg/detail/header__struct.h"
-// Member 'joint_name'
+// Member 'device'
 #include "rosidl_runtime_c/string.h"
 
 /// Struct defined in msg/UnitreeGO8010Command in the package motor_control_ros2.
 typedef struct motor_control_ros2__msg__UnitreeGO8010Command
 {
   std_msgs__msg__Header header;
-  rosidl_runtime_c__String joint_name;
+  /// 电机 ID (0-15)
+  uint8_t id;
+  /// 串口设备路径（如 /dev/ttyUSB0），为空时广播到所有同 ID 电机
+  rosidl_runtime_c__String device;
   uint8_t mode;
   /// 目标值（FOC模式使用）
   /// 期望位置（度），FOC模式时使用

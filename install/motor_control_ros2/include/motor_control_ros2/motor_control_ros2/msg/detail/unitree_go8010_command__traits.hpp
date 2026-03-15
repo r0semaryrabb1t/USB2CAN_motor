@@ -36,10 +36,17 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
-  // member: joint_name
+  // member: id
   {
-    out << "joint_name: ";
-    rosidl_generator_traits::value_to_yaml(msg.joint_name, out);
+    out << "id: ";
+    rosidl_generator_traits::value_to_yaml(msg.id, out);
+    out << ", ";
+  }
+
+  // member: device
+  {
+    out << "device: ";
+    rosidl_generator_traits::value_to_yaml(msg.device, out);
     out << ", ";
   }
 
@@ -99,13 +106,23 @@ inline void to_block_style_yaml(
     to_block_style_yaml(msg.header, out, indentation + 2);
   }
 
-  // member: joint_name
+  // member: id
   {
     if (indentation > 0) {
       out << std::string(indentation, ' ');
     }
-    out << "joint_name: ";
-    rosidl_generator_traits::value_to_yaml(msg.joint_name, out);
+    out << "id: ";
+    rosidl_generator_traits::value_to_yaml(msg.id, out);
+    out << "\n";
+  }
+
+  // member: device
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "device: ";
+    rosidl_generator_traits::value_to_yaml(msg.device, out);
     out << "\n";
   }
 

@@ -89,12 +89,7 @@ public:
     cmd_mode_ = static_cast<uint8_t>(GO8010Mode::CALIBRATE);
   }
 
-  bool sendRecv() {
-    // SDK版本的sendRecv需要SDK支持
-    // 此处为占位符，返回false表示未连接
-    return false;
-  }
-
+  b
   uint8_t getMotorId() const { return motor_id_; }
 
 private:

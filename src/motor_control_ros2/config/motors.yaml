@@ -57,21 +57,35 @@ can_interfaces:
   #       id: 2
 
 # 串口接口配置（宇树电机 - 原生协议，不依赖SDK）
+# 注意：direction / offset / kp / kd 已迁移到 delta_arm.yaml，此处只保留硬件参数
 serial_interfaces:
-  # 串口接口 1 - GO-8010 @ 4Mbps
+  # 串口接口 1 - GO-8010 @ 4Mbps（Delta 机械臂 3 个电机）
   - device: /dev/ttyUSB0
     baudrate: 4000000
-    protocol: native         # 使用原生协议（不依赖SDK）
+    protocol: native
     motors:
-      - name: fl_hip_motor     # 电机名称
-        type: GO8010           # 电机类型: GO8010
-        id: 0                  # 电机 ID (0-15)
-        direction: 1           # 方向: 1 或 -1
-        offset: 0.0            # 零点偏移（弧度）
-        # GO-M8010-6 电机参数
-        gear_ratio: 6.33       # 齿轮减速比
-        k_pos: 0.20            # 默认关节刚度系数 (0-1.0)
-        k_spd: 0.04            # 默认关节阻尼系数 (0-1.0)
+      - name: arm_motor_1
+        type: GO8010
+        id: 0
+        gear_ratio: 6.33
+
+  - device: /dev/ttyUSB1
+    baudrate: 4000000
+    protocol: native
+    motors:
+      - name: arm_motor_2
+        type: GO8010
+        id: 0
+        gear_ratio: 6.33
+
+  - device: /dev/ttyUSB2
+    baudrate: 4000000
+    protocol: native
+    motors:
+      - name: arm_motor_3
+        type: GO8010
+        id: 0
+        gear_ratio: 6.33
 
 # 配置说明:
 # 1. 取消注释需要使用的接口和电机
