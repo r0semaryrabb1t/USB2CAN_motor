@@ -17,6 +17,7 @@ jobs:
     env:
       WORKSPACE_SRC_PATH: ${{ github.workspace }}/src
       COLCON_PACKAGES_ARG: --packages-up-to motor_control_ros2
+      ROS_DISTRO: humble
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,12 +45,15 @@ jobs:
           }
 
       - name: Install dependencies
-        run: rosdep install --from-paths "${WORKSPACE_SRC_PATH}" --ignore-src -r -y
+        run: rosdep install --from-paths "${WORKSPACE_SRC_PATH}" --ignore-src -r -y --rosdistro ${ROS_DISTRO}
 
       - name: Build
-        run: colcon build --event-handlers console_cohesion+ ${COLCON_PACKAGES_ARG}
+        run: |
+          source /opt/ros/${ROS_DISTRO}/setup.bash
+          colcon build --event-handlers console_cohesion+ ${COLCON_PACKAGES_ARG}
 
       - name: Test
         run: |
+          source /opt/ros/${ROS_DISTRO}/setup.bash
           colcon test --event-handlers console_cohesion+ ${COLCON_PACKAGES_ARG}
           colcon test-result --verbose
