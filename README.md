@@ -1,4 +1,4 @@
-# 电机控制系统使用手册
+# 电机控制系统使用手册 
 
 ## 📦 系统概述
 
@@ -396,6 +396,44 @@ ros2 run motor_control_ros2 motor_control_node
 6. **电机名称**: 确保配置文件中的电机名称唯一
 7. **CAN ID**: 同一总线上的电机 ID 不能重复
 
+## 🔁 Pull Request 标准工作流
+
+为降低多人协作时的架构漂移风险，仓库现在统一使用一个 `PR CI` workflow 文件处理 PR 自动化，并配套默认 PR 模板自动填充。
+
+规范流程如下：
+
+1. 基于最新 `master` 创建单一目的分支
+2. 本地完成与改动对应的最小验证
+3. 使用语义化 PR 标题：`<type>: <description>`，类型仅允许 `feat/fix/docs/refactor/test/chore/ci`
+4. 创建 PR 时，GitHub 会自动填充 `.github/pull_request_template.md`
+5. 等待统一 workflow 完成检查与自动化处理
+
+统一 workflow 包含：
+
+- `Semantic PR title`：校验 PR 标题格式
+- `ROS build and test`：执行工作区校验、ROS2 依赖安装、`colcon build`、`colcon test`
+- `PR gate`：聚合前两项结果，作为 branch protection 中唯一需要勾选的 required check
+- `PR automation`：维护固定机器人汇总评论，并在检查通过后启用 squash auto-merge
+- `CodeQL`：不再在 PR 上运行，只保留默认分支 push 与定时安全扫描
+
+补充说明：
+
+- 同仓库 PR 和 fork PR 都会执行相同检查
+- 固定汇总评论会被更新，不会重复新增多条评论
+- 当前仓库要实现全自动合并，应以 `PR gate` 为唯一门禁，并关闭强制 approvals / 强制 Code Owner approvals
+- GitHub Actions 可能不被允许直接 approve PR；这不会影响当前“检查通过后自动 squash 合并”的主流程
+- 若 PR 修改了 `.github/workflows/*`，自动启用 squash auto-merge 需要额外 `workflows` 权限；权限不足时会提示由维护者手动启用
+
+建议在仓库 Settings → Branches 中确认：
+
+1. 开启 `Allow auto-merge`
+2. Require a pull request before merging
+3. 先让新 workflow 在 GitHub 上至少成功运行一次；否则 required checks 列表里不会出现新 check
+4. Require status checks to pass before merging（只勾选 `PR gate`）
+5. 若目标是全自动合并，不要再强制人工 approvals / Code Owner approvals
+
+详细流程见 `docs/pr_governance.md`。
+
 ## 📖 相关文档
 
 - `.agent/yaml_config_guide.md` - YAML 配置详细指南
@@ -410,3 +448,4 @@ ros2 run motor_control_ros2 motor_control_node
 **文档版本**: v2.0  
 **更新时间**: 2026-01-15  
 **维护者**: Motor Control Team
+
