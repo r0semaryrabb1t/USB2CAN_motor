@@ -161,6 +161,12 @@ def main():
     else:
         print("\n⚠️  部分电机偏差较大，可能需要再次执行校准")
 
+    # 6. 清理：终止校准中启动的 motor_control_node
+    print("\n🧹 清理：终止 motor_control_node ...")
+    subprocess.run(['pkill', '-9', '-f', 'motor_control_ros2/motor_control_node'],
+                   stderr=subprocess.DEVNULL)
+    print("  ✓ 已终止")
+
     print()
 
 
