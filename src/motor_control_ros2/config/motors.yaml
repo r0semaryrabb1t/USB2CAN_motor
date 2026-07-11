@@ -1,63 +1,3 @@
-can_interfaces:
-- device: /dev/ttyACM1
-  baudrate: 921600
-  motors:
-  - name: DJI6020_1
-    type: GM6020
-    id: 1
-    offset: 2.619093
-  - name: DJI6020_2
-    type: GM6020
-    id: 2
-    offset: 5.202326
-  - name: DJI6020_4
-    type: GM6020
-    id: 4
-    offset: 2.060388
-- device: /dev/ttyACM0
-  baudrate: 921600
-  motors:
-  - name: DJI3508_1
-    type: GM3508
-    id: 1
-    # offset: 31.518877
-  - name: DJI3508_2
-    type: GM3508
-    id: 2
-    # direction: -1
-    # offset: 37.802063
-    # mirror_from: DJI3508_1
-  - name: DJI3508_4
-    type: GM3508
-    id: 4
-  # - name: DJI3508_4
-  #   type: GM3508
-  #   id: 4
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 serial_interfaces:
 - device: /dev/ttyUSB2
   baudrate: 4000000
@@ -87,6 +27,7 @@ serial_interfaces:
     type: GO8010
     id: 2
     direction: 1
+    
     offset: -0.217435
     gear_ratio: 6.33
     k_pos: 0.01
