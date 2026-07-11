@@ -92,11 +92,30 @@ set_target_properties(strike_node PROPERTIES
   INSTALL_RPATH "$ORIGIN"
 )
 
+# C++ 可执行文件 - 电机监控节点
+add_executable(motor_monitor_node
+  src/nodes/motor_monitor_node.cpp
+)
+
+target_link_libraries(motor_monitor_node
+  "${cpp_typesupport_target}"
+)
+
+ament_target_dependencies(motor_monitor_node
+  rclcpp
+  std_msgs
+)
+
+set_target_properties(motor_monitor_node PROPERTIES
+  INSTALL_RPATH "$ORIGIN"
+)
+
 # 安装目标
 install(TARGETS
   motor_control_lib
   motor_control_node
   strike_node
+  motor_monitor_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}

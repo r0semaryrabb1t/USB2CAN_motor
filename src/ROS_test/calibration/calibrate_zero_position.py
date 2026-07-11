@@ -1,19 +1,34 @@
 #!/usr/bin/python3
-# ⚠️ 必须用系统 Python 3.10（ROS2 Humble 依赖），不能用 conda 的 Python 3.13
-# 用法: /usr/bin/python3 calibrate_zero_position.py
-#      或先 source install/setup.bash 再运行
 """
 宇树电机零点校准工具
 将当前位置设置为0度基准点
 
-用法: python3 calibrate_zero_position.py
+用法: /usr/bin/python3 calibrate_zero_position.py
   - 需要 motor_control_node 正在运行
   - 执行后自动重启节点并验证归零结果
+  - ⚠️ 必须用系统 Python 3.10（ROS2 Humble 依赖），不能用 conda 的 Python 3.13
 """
+
+import sys
+if sys.version_info[:2] != (3, 10):
+    sys.exit(
+        f"\n❌ Python 版本不匹配\n"
+        f"   当前: Python {sys.version_info.major}.{sys.version_info.minor} ({sys.executable})\n"
+        f"   需要: Python 3.10 (ROS2 Humble)\n"
+        f"   请用: /usr/bin/python3 {sys.argv[0]}\n"
+        f"   或先: source install/setup.bash\n"
+    )
 
 import rclpy
 from rclpy.node import Node
-from motor_control_ros2.msg import UnitreeGO8010State
+try:
+    from motor_control_ros2.msg import UnitreeGO8010State
+except ModuleNotFoundError:
+    sys.exit(
+        f"\n❌ 找不到 motor_control_ros2 包\n"
+        f"   请先 source workspace:\n"
+        f"   source install/setup.bash\n"
+    )
 import yaml
 import re
 import os
@@ -59,10 +74,11 @@ def patch_offset_in_yaml(config_path, motor_name, new_offset):
         content = f.read()
 
     # 匹配: "name: <motor_name>" 后面最近的 "offset: <数字>"
+    # [ \t]{2,6} 兼容 2 或 4 空格缩进；\n 允许字段间的空行
     pattern = (
         r'(- name: ' + re.escape(motor_name) + r'\s*\n'
-        r'(?:    \w+:.*\n)*?'  # 中间可能有 type/id/direction 等行
-        r'    offset: )'
+        r'(?:[ \t]{2,6}[a-z_]\w*:.*\n|\s*\n)*?'
+        r'[ \t]{2,6}offset: )'
         r'[-+]?\d*\.?\d+'
     )
     match = re.search(pattern, content)

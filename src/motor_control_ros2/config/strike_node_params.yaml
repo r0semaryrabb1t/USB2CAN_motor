@@ -22,8 +22,8 @@ strike_node:
     joy_button_lb: 4            # Xbox 手柄 LB 按键索引
 
     # 重力补偿参数
-    gravity_tau_inner: 8.0      # 大臂输出端重力矩 (Nm)
-    gravity_tau_outer: 3.5
+    gravity_tau_inner: 4.0      # 大臂输出端重力矩 (Nm)
+    gravity_tau_outer: 1.5
           # 小臂输出端重力矩 (Nm)
     gear_ratio: 6.33            # 减速比
     gravity_offset_rad: -1.5708 # π/2，水平为0参考 (rad)
@@ -49,13 +49,13 @@ strike_node:
     # 电机设备配置
     motors:
       l1_id: 0
-      l1_device: "/dev/ttyUSB2"  # 左大臂
+      l1_device: "/dev/ttyUSB0"  # 左大臂
       l2_id: 1
-      l2_device: "/dev/ttyUSB2"  # 左小臂
+      l2_device: "/dev/ttyUSB0"  # 左小臂
       r1_id: 2
-      r1_device: "/dev/ttyUSB3"  # 右大臂
+      r1_device: "/dev/ttyUSB1"  # 右大臂
       r2_id: 3
-      r2_device: "/dev/ttyUSB3"  # 右小臂
+      r2_device: "/dev/ttyUSB1"  # 右小臂
 
     # ================================================================
     # 击球方案列表
@@ -86,14 +86,14 @@ strike_node:
         strike:
           main:                  # kp=0 纯速度模式
             pos_deg: 0.0
-            vel: 6.0            # 目标速度 (rad/s)  ← 6.0→4.0
-            torque_ff: 3.5       # 额外加速前馈 (Nm) ← 3.5→1.5
+            vel: 6.5           # 目标速度 (rad/s)  ← 6.0→4.0
+            torque_ff: 4.5       # 额外加速前馈 (Nm) ← 3.5→1.5
             kp: 0.0
             kd: 0.1
           sub:
             pos_deg: 0.0
             vel: 5.0
-            torque_ff: 1.5       # ← 3.5→1.5
+            torque_ff: 2.0       # ← 3.5→1.5
             kp: 0.0
             kd: 0.1
 
