@@ -18,7 +18,9 @@
  *   手柄 A/B/X/Y 四键 / 键盘 1/2/3/4 键 / 视觉落点 → 更新 active_profile
  *
  * 触发（状态转换）：
- *   手柄 LB / 红外 /ir_trigger → IDLE→蓄力, READY→击打
+ *   首次: IDLE → MOVING_TO_READY → READY
+ *   之后: READY → STRIKE_ACCEL → BRAKING → RETURNING → READY (循环)
+ *   回程: 小臂先收到蓄力位（避开障碍），大臂再回蓄力位
  *
  * 默认方案映射（可通过 yaml 修改）：
  *   A(0) / 键盘1 → "center"
@@ -617,27 +619,57 @@ private:
         move_kp_ = prof.ready.main.kp;
         move_kd_ = prof.ready.main.kd;
         move_time_ = prof.return_time;
+        return_sub_phase_done_ = false;
         state_ = StrikeState::RETURNING;
         state_start_ = now_sec();
+        RCLCPP_INFO(get_logger(),
+            "回程开始: 阶段1 小臂→%.1f° (%.2fs) → 阶段2 大臂→%.1f°",
+            rad2deg(move_target_sub_), move_time_ / 2.0, rad2deg(move_target_main_));
     }
 
     void updateReturn() {
-        double t = std::min(1.0, elapsed() / move_time_);
-        double frac = t * t * (3.0 - 2.0 * t);
-        double pos_m = move_start_main_ + (move_target_main_ - move_start_main_) * frac;
-        double pos_s = move_start_sub_  + (move_target_sub_  - move_start_sub_)  * frac;
+        const double half_time = move_time_ / 2.0;
 
-        for (const auto* motor : {&motor_l1_, &motor_r1_}) {
-            sendFoc(*motor, pos_m, 0.0, 0.0, move_kp_, move_kd_);
-        }
-        for (const auto* motor : {&motor_l2_, &motor_r2_}) {
-            sendFoc(*motor, pos_s, 0.0, 0.0, move_kp_, move_kd_);
-        }
+        if (!return_sub_phase_done_) {
+            // ── 阶段1: 小臂先收到蓄力位，大臂保持不动 ──────────
+            if (elapsed() >= half_time) {
+                return_sub_phase_done_ = true;
+                // 截取此时大臂的实际位置作为阶段2起始
+                move_start_main_ = avgPos(MOTOR_L1_ID, MOTOR_R1_ID);
+                state_start_ = now_sec();  // 重置计时器给阶段2
+                RCLCPP_INFO(get_logger(),
+                    "回程阶段1完成: 小臂→%.1f° | 开始阶段2: 大臂→%.1f°",
+                    rad2deg(move_target_sub_), rad2deg(move_target_main_));
+            }
+            double t = std::min(1.0, elapsed() / half_time);
+            double frac = t * t * (3.0 - 2.0 * t);
+            double pos_s = move_start_sub_ + (move_target_sub_ - move_start_sub_) * frac;
 
-        if (elapsed() >= move_time_) {
-            RCLCPP_INFO(get_logger(), "回蓄力完成 → IDLE，等待下次触发");
-            applyPendingProfile();
-            state_ = StrikeState::IDLE;
+            for (const auto* motor : {&motor_l1_, &motor_r1_}) {
+                sendFoc(*motor, move_start_main_, 0.0, 0.0, move_kp_, move_kd_);
+            }
+            for (const auto* motor : {&motor_l2_, &motor_r2_}) {
+                sendFoc(*motor, pos_s, 0.0, 0.0, move_kp_, move_kd_);
+            }
+        } else {
+            // ── 阶段2: 大臂回到蓄力位，小臂保持在蓄力位 ──────────
+            double t = std::min(1.0, elapsed() / half_time);
+            double frac = t * t * (3.0 - 2.0 * t);
+            double pos_m = move_start_main_ + (move_target_main_ - move_start_main_) * frac;
+
+            for (const auto* motor : {&motor_l1_, &motor_r1_}) {
+                sendFoc(*motor, pos_m, 0.0, 0.0, move_kp_, move_kd_);
+            }
+            for (const auto* motor : {&motor_l2_, &motor_r2_}) {
+                sendFoc(*motor, move_target_sub_, 0.0, 0.0, move_kp_, move_kd_);
+            }
+
+            if (elapsed() >= half_time) {
+                RCLCPP_INFO(get_logger(), "回蓄力完成 → READY，等待下次触发");
+                applyPendingProfile();
+                state_ = StrikeState::READY;
+                state_start_ = now_sec();
+            }
         }
     }
 
@@ -822,6 +854,8 @@ private:
 
     // 击打阶段小臂延迟状态
     bool sub_arm_started_ {false};
+    // 回程两阶段: false=小臂先收, true=大臂回位
+    bool return_sub_phase_done_ {false};
 
     // 手柄
     std::atomic<bool> lb_pressed_ {false};

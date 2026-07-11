@@ -86,14 +86,14 @@ strike_node:
         strike:
           main:                  # kp=0 纯速度模式
             pos_deg: 0.0
-            vel: 6.5           # 目标速度 (rad/s)  ← 6.0→4.0
+            vel: 4.0           # 目标速度 (rad/s)  ← 6.0→4.0
             torque_ff: 4.5       # 额外加速前馈 (Nm) ← 3.5→1.5
             kp: 0.0
             kd: 0.1
           sub:
             pos_deg: 0.0
-            vel: 5.0
-            torque_ff: 2.0       # ← 3.5→1.5
+            vel: 3.5
+            torque_ff: 3.0       # ← 3.5→1.5
             kp: 0.0
             kd: 0.1
 
